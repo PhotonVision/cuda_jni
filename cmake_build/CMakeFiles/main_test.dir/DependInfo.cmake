@@ -1,0 +1,21 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/aakash/dev/tensorrt/src/main/native/cuda/preprocess.cu" "CMakeFiles/main_test.dir/src/main/native/cuda/preprocess.cu.o" "gcc" "CMakeFiles/main_test.dir/src/main/native/cuda/preprocess.cu.o.d"
+  "/home/aakash/dev/tensorrt/src/main/native/cpp/YOLOv11.cpp" "CMakeFiles/main_test.dir/src/main/native/cpp/YOLOv11.cpp.o" "gcc" "CMakeFiles/main_test.dir/src/main/native/cpp/YOLOv11.cpp.o.d"
+  "/home/aakash/dev/tensorrt/src/main/native/cpp/main_test.cpp" "CMakeFiles/main_test.dir/src/main/native/cpp/main_test.cpp.o" "gcc" "CMakeFiles/main_test.dir/src/main/native/cpp/main_test.cpp.o.d"
+  )
+
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")
