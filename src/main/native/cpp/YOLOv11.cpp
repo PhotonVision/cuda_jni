@@ -129,6 +129,8 @@ void YOLOv11::infer()
 #if NV_TENSORRT_MAJOR < 10
     context->enqueueV2((void**)gpu_buffers, stream, nullptr);
 #else
+    context->setInputTensorAddress("images", gpu_buffers[0]);
+    context->setOutputTensorAddress("output0", gpu_buffers[1]);
     this->context->enqueueV3(this->stream);
 #endif
 }
