@@ -19,11 +19,13 @@ YOLOv11::YOLOv11(string model_path, nvinfer1::ILogger& logger)
     // Deserialize an engine
     if (model_path.find(".onnx") == std::string::npos)
     {
+        std::cout << "Deserializing engine from file: " + model_path << std::endl;
         init(model_path, logger);
     }
     // Build an engine from an onnx model
     else
     {
+        std::cout << "Building engine from onnx model: " + model_path << std::endl;
         build(model_path, logger);
         saveEngine(model_path);
     }
@@ -43,6 +45,7 @@ YOLOv11::YOLOv11(string model_path, nvinfer1::ILogger& logger)
 
 void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
 {
+    std::cout << "Reading engine from file: " + engine_path << std::endl;
     // Read the engine file
     ifstream engineStream(engine_path, ios::binary);
     engineStream.seekg(0, ios::end);
@@ -52,6 +55,7 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
     engineStream.read(engineData.get(), modelSize);
     engineStream.close();
 
+    std::cout << "Deserializing the engine" << std::endl;
     // Deserialize the tensorrt engine
     runtime = createInferRuntime(logger);
     engine = runtime->deserializeCudaEngine(engineData.get(), modelSize);
@@ -74,6 +78,7 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
     num_detections = input_dims.d[2];
 #endif
 
+    std::cout << "Initalizing buffers and stream" << std::endl;
     // Initialize input buffers
     cpu_output_buffer = new float[detection_attribute_size * num_detections];
     CUDA_CHECK(cudaMalloc(&gpu_buffers[0], 3 * input_w * input_h * sizeof(float)));
@@ -95,6 +100,7 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
 
 YOLOv11::~YOLOv11()
 {
+    std::cout << "Destroying the YOLOv11 instance" << std::endl;
     // Release stream and buffers
     CUDA_CHECK(cudaStreamSynchronize(stream));
     CUDA_CHECK(cudaStreamDestroy(stream));
@@ -110,6 +116,7 @@ YOLOv11::~YOLOv11()
 }
 
 void YOLOv11::preprocess(Mat& image) {
+    std::cout << "Preprocessing the image" << std::endl;
     // Preprocessing data on gpu
     cuda_preprocess(image.ptr(), image.cols, image.rows, gpu_buffers[0], input_w, input_h, stream);
     CUDA_CHECK(cudaStreamSynchronize(stream));
@@ -117,6 +124,8 @@ void YOLOv11::preprocess(Mat& image) {
 
 void YOLOv11::infer()
 {
+    std::cout << "Running inference" << std::endl;
+    // Run inference
 #if NV_TENSORRT_MAJOR < 10
     context->enqueueV2((void**)gpu_buffers, stream, nullptr);
 #else
@@ -126,6 +135,7 @@ void YOLOv11::infer()
 
 void YOLOv11::postprocess(vector<Detection>& output)
 {
+    std::cout << "Postprocessing the results" << std::endl;
     // Memcpy from device output buffer to host output buffer
     CUDA_CHECK(cudaMemcpyAsync(cpu_output_buffer, gpu_buffers[1], num_detections * detection_attribute_size * sizeof(float), cudaMemcpyDeviceToHost, stream));
     CUDA_CHECK(cudaStreamSynchronize(stream));
@@ -175,6 +185,7 @@ void YOLOv11::postprocess(vector<Detection>& output)
 
 void YOLOv11::build(std::string onnxPath, nvinfer1::ILogger& logger)
 {
+    std::cout << "Building engine from ONNX model: " + onnxPath << std::endl;
     auto builder = createInferBuilder(logger);
     const auto explicitBatch = 1U << static_cast<uint32_t>(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
     INetworkDefinition* network = builder->createNetworkV2(explicitBatch);
@@ -201,6 +212,7 @@ void YOLOv11::build(std::string onnxPath, nvinfer1::ILogger& logger)
 
 bool YOLOv11::saveEngine(const std::string& onnxpath)
 {
+    std::cout << "Saving engine to file" << std::endl;
     // Create an engine path from onnx path
     std::string engine_path;
     size_t dotIndex = onnxpath.find_last_of(".");
@@ -215,6 +227,7 @@ bool YOLOv11::saveEngine(const std::string& onnxpath)
     // Save the engine to the path
     if (engine)
     {
+        std::cout << "Writing engine to file: " + engine_path << std::endl;
         nvinfer1::IHostMemory* data = engine->serialize();
         std::ofstream file;
         file.open(engine_path, std::ios::binary | std::ios::out);
@@ -233,6 +246,7 @@ bool YOLOv11::saveEngine(const std::string& onnxpath)
 
 void YOLOv11::draw(Mat& image, const vector<Detection>& output)
 {
+    std::cout << "Drawing detections on the image" << std::endl;
     const float ratio_h = input_h / (float)image.rows;
     const float ratio_w = input_w / (float)image.cols;
 
