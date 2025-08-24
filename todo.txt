@@ -1,3 +1,0 @@
-figure out cmake and gradle
-add all the functions in tensorrt_jni.cpp
-figure out nms and box thresholding
