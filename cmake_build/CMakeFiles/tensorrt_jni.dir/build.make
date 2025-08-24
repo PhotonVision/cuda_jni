@@ -143,6 +143,7 @@ libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.5.4d
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_wechat_qrcode.so.4.5.4d
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.5.4d
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.5.4d
+libtensorrt_jni.so: /usr/local/cuda/lib64/libcudart.so
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.5.4d
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.5.4d
 libtensorrt_jni.so: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.5.4d

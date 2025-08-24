@@ -24,6 +24,8 @@ endif()
 
 set(BUILD_SHARED_LIBS ON)
 
+find_package(CUDAToolkit REQUIRED)
+
 find_package(JNI)
 if(JNI_FOUND)
     # Fixes odd AWT dependency
@@ -129,7 +131,7 @@ target_link_libraries(
     PUBLIC 
     Threads::Threads 
     ${OpenCV_LIBS} 
-    ${CUDA_LIBRARIES} 
+    CUDA::cudart
     ${TENSORRT_LIBS}
 )
 
@@ -162,7 +164,7 @@ target_link_libraries(
     PUBLIC 
     Threads::Threads 
     ${OpenCV_LIBS} 
-    ${CUDA_LIBRARIES} 
+    CUDA::cudart
     ${TENSORRT_LIBS}
 )
 

@@ -5,13 +5,13 @@
 # compile CXX with /usr/bin/g++
 CUDA_DEFINES = -DAPI_EXPORTS
 
-CUDA_INCLUDES = -I/usr/local/cuda/include -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem=/usr/include/opencv4
+CUDA_INCLUDES = -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem=/usr/local/cuda/include -isystem=/usr/include/opencv4
 
 CUDA_FLAGS = -g --generate-code=arch=compute_52,code=[compute_52,sm_52] -std=c++17
 
 CXX_DEFINES = -DAPI_EXPORTS
 
-CXX_INCLUDES = -I/usr/local/cuda/include -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem /usr/local/cuda/include -isystem /usr/include/opencv4
 
 CXX_FLAGS = -pthread -g -std=gnu++17
 

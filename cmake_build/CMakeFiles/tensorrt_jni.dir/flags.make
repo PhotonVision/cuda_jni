@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = -DAPI_EXPORTS -Dtensorrt_jni_EXPORTS
 
-CXX_INCLUDES = -I/usr/local/cuda/include -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/aakash/dev/tensorrt/src/main/native/include -I/usr/lib/jvm/default-java/include -I/usr/lib/jvm/default-java/include/linux -isystem /usr/local/cuda/include -isystem /usr/include/opencv4
 
 CXX_FLAGS = -pthread -g -fPIC -std=gnu++17
 
