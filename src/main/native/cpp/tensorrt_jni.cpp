@@ -116,6 +116,9 @@ JNIEXPORT jobjectArray JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_detect
   yolo->preprocess(*input_img);
   yolo->infer();
 
+  yolo->postprocess(objects);
+  yolo->draw(*input_img, objects);
+
   if (objects.size() < 1) {
     return nullptr;
   }

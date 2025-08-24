@@ -43,7 +43,7 @@ private:
     int input_h;
     int num_detections;
     int detection_attribute_size;
-    int num_classes = 80;
+    int num_classes = 1;
     const int MAX_IMAGE_SIZE = 4096 * 4096;
     float conf_threshold = 0.3f;
     float nms_threshold = 0.4f;
