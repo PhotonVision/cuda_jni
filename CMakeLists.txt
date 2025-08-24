@@ -124,6 +124,7 @@ add_library(
     ${PROJECT_NAME}
     src/main/native/cpp/tensorrt_jni.cpp
     src/main/native/cpp/YOLOv11.cpp
+    src/main/native/cuda/preprocess.cu
 )
 
 target_link_libraries(
