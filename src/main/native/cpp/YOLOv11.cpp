@@ -65,6 +65,7 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
 #if NV_TENSORRT_MAJOR < 10
     // For TensorRT versions less than 10, get binding dimensions directly
     auto input_dims = engine->getBindingDimensions(0);
+    auto output_dims = engine->getBindingDimensions(1);
     input_h = input_dims.d[2];
     input_w = input_dims.d[3];
     detection_attribute_size = input_dims.d[1];
@@ -72,11 +73,13 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
 #else
     // For TensorRT versions 10 and above, use getTensorShape
     auto input_dims = engine->getTensorShape(engine->getIOTensorName(0));
+    auto output_dims = engine->getTensorShape(engine->getIOTensorName(1));
     input_h = input_dims.d[2];
     input_w = input_dims.d[3];
-    detection_attribute_size = input_dims.d[1];
-    num_detections = input_dims.d[2];
+    detection_attribute_size = output_dims.d[1];
+    num_detections = output_dims.d[2];
 #endif
+    num_classes = detection_attribute_size - 4;
 
     std::cout << "Initalizing buffers and stream" << std::endl;
     // Initialize input buffers
