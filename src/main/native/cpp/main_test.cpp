@@ -135,7 +135,7 @@ int main(int argc, char** argv)
             printf("cost %2.4lf ms\n", tc);
 
             model.draw(image, objects);
-            imshow("Result", image);
+            imwrite("Output", image);
 
             waitKey(0);
         }
