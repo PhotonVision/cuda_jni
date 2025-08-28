@@ -132,6 +132,13 @@ JNIEXPORT jobjectArray JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_detect
     objects[i].bbox.y *= input_img->rows;
     objects[i].bbox.width *= input_img->cols;
     objects[i].bbox.height *= input_img->rows;
+    std::cout << "Detection: " << i << " "
+              << "x: " << objects[i].bbox.x << " y: " << objects[i].bbox.y
+              << " w: " << objects[i].bbox.width
+              << " h: " << objects[i].bbox.height
+              << " conf: " << objects[i].conf
+              << " class_id: " << objects[i].class_id
+              << std::endl;
     jobject obj = MakeJObject(env, objects[i]);
     env->SetObjectArrayElement(jarr, i, obj);
   }
