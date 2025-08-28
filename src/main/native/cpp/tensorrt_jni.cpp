@@ -120,6 +120,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_detect
   yolo->draw(*input_img, objects);
 
   if (objects.size() < 1) {
+    std::cout << "No objects detected" << std::endl;
     return nullptr;
   }
 

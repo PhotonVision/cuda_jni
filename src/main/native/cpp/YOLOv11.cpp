@@ -119,7 +119,6 @@ YOLOv11::~YOLOv11()
 }
 
 void YOLOv11::preprocess(Mat& image) {
-    std::cout << "Preprocessing the image" << std::endl;
     // Preprocessing data on gpu
     cuda_preprocess(image.ptr(), image.cols, image.rows, gpu_buffers[0], input_w, input_h, stream);
     CUDA_CHECK(cudaStreamSynchronize(stream));
@@ -127,7 +126,6 @@ void YOLOv11::preprocess(Mat& image) {
 
 void YOLOv11::infer()
 {
-    std::cout << "Running inference" << std::endl;
     // Run inference
 #if NV_TENSORRT_MAJOR < 10
     context->enqueueV2((void**)gpu_buffers, stream, nullptr);
@@ -140,7 +138,6 @@ void YOLOv11::infer()
 
 void YOLOv11::postprocess(vector<Detection>& output)
 {
-    std::cout << "Postprocessing the results" << std::endl;
     // Memcpy from device output buffer to host output buffer
     CUDA_CHECK(cudaMemcpyAsync(cpu_output_buffer, gpu_buffers[1], num_detections * detection_attribute_size * sizeof(float), cudaMemcpyDeviceToHost, stream));
     CUDA_CHECK(cudaStreamSynchronize(stream));
@@ -251,7 +248,6 @@ bool YOLOv11::saveEngine(const std::string& onnxpath)
 
 void YOLOv11::draw(Mat& image, const vector<Detection>& output)
 {
-    std::cout << "Drawing detections on the image" << std::endl;
     const float ratio_h = input_h / (float)image.rows;
     const float ratio_w = input_w / (float)image.cols;
 
