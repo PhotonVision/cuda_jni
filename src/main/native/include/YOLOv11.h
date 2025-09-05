@@ -27,6 +27,9 @@ public:
     void postprocess(vector<Detection>& output);
     void draw(Mat& image, const vector<Detection>& output);
 
+    float conf_threshold = 0.05f;
+    float nms_threshold = 0.4f;
+
 private:
     void init(std::string engine_path, nvinfer1::ILogger& logger);
 
@@ -45,8 +48,6 @@ private:
     int detection_attribute_size;
     int num_classes = 1;
     const int MAX_IMAGE_SIZE = 4096 * 4096;
-    float conf_threshold = 0.3f;
-    float nms_threshold = 0.4f;
 
     vector<Scalar> colors;
 

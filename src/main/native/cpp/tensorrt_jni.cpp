@@ -107,10 +107,8 @@ JNIEXPORT jobjectArray JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_detect
     YOLOv11 *yolo = reinterpret_cast<YOLOv11 *>(detector_);
     cv::Mat *input_img = reinterpret_cast<cv::Mat *>(input_cvmat_ptr);
 
-//     DetectionFilterParams params{
-//       .nms_thresh = nms_thresh,
-//       .box_thresh = box_thresh,
-//   };
+  yolo->conf_threshold = box_thresh;
+  yolo->nms_threshold = nms_thresh;
 
   vector<Detection> objects;
   yolo->preprocess(*input_img);
