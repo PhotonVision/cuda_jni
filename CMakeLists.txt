@@ -38,11 +38,11 @@ set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS} -Wl,--allow-shlib-undefined"
 )
 
-set(CUDA_DIR /usr/local/cuda)
+# set(CUDA_DIR /usr/local/cuda)
 
 # Include CUDA directories
-include_directories(${CUDA_DIR}/include)
-link_directories(${CUDA_DIR}/lib64)
+# include_directories(${CUDA_DIR}/include)
+# link_directories(${CUDA_DIR}/lib64)
 # include_directories(src/main/native/include)
 
 
