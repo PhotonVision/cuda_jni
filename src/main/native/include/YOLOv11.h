@@ -27,7 +27,7 @@ public:
     void postprocess(vector<Detection>& output);
     void draw(Mat& image, const vector<Detection>& output);
 
-    float conf_threshold = 0.05f;
+    float conf_threshold = 0.5f;
     float nms_threshold = 0.4f;
 
     bool is_quantized = false;
