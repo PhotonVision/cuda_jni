@@ -30,6 +30,8 @@ public:
     float conf_threshold = 0.05f;
     float nms_threshold = 0.4f;
 
+    bool is_quantized = false;
+
 private:
     void init(std::string engine_path, nvinfer1::ILogger& logger);
 

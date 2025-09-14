@@ -25,7 +25,6 @@ YOLOv11::YOLOv11(string model_path, nvinfer1::ILogger& logger)
     // Build an engine from an onnx model
     else
     {
-        std::cout << "Building engine from onnx model: " + model_path << std::endl;
         build(model_path, logger);
         saveEngine(model_path);
     }
@@ -91,7 +90,6 @@ void YOLOv11::init(std::string engine_path, nvinfer1::ILogger& logger)
     cuda_preprocess_init(MAX_IMAGE_SIZE);
 
     CUDA_CHECK(cudaStreamCreate(&stream));
-
 
     if (warmup) {
         for (int i = 0; i < 10; i++) {
@@ -192,10 +190,11 @@ void YOLOv11::build(std::string onnxPath, nvinfer1::ILogger& logger)
     const auto explicitBatch = 1U << static_cast<uint32_t>(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
     INetworkDefinition* network = builder->createNetworkV2(explicitBatch);
     IBuilderConfig* config = builder->createBuilderConfig();
-    if (isFP16)
-    {
-        config->setFlag(BuilderFlag::kFP16);
-    }
+    config->setFlag(BuilderFlag::kINT8);
+    // if (isFP16)
+    // {
+    //     config->setFlag(BuilderFlag::kFP16);
+    // }
     nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, logger);
     bool parsed = parser->parseFromFile(onnxPath.c_str(), static_cast<int>(nvinfer1::ILogger::Severity::kINFO));
     IHostMemory* plan{ builder->buildSerializedNetwork(*network, *config) };

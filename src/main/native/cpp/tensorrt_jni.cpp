@@ -146,7 +146,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_detect
  * Signature: (J)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_photonvision_tensorrt_TensorRTJNI_isQuantized
-  (JNIEnv *, jclass, jlong) {
+  (JNIEnv *, jclass, jlong detector_) {
     return JNI_TRUE;
   }
 
