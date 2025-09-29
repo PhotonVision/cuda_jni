@@ -63,62 +63,54 @@ set(HEADERS
     src/main/native/include/common.h
 )
 
-# Find and include OpenCV
-# set(OpenCV_DIR "/usr/lib/x86_64-linux-gnu/cmake/opencv4")
 
-# Include OpenCV
-find_package(OpenCV REQUIRED)
-# include_directories(${OpenCV_INCLUDE_DIRS})
-
-# set(TENSORRT_DIR)
 
 # Include TensorRT
 # include_directories(${TENSORRT_DIR}/include)
 # link_directories(${TENSORRT_DIR}/lib)
 set(TENSORRT_LIBS nvinfer nvinfer_plugin nvonnxparser)
 
-#rga
-# set(LIB_ARCH aarch64)
-# set(RGA_PATH ${CMAKE_SOURCE_DIR}/src/main/native/lib/3rdparty/rga/RK3588)
-# set(RGA_LIB ${RGA_PATH}/lib/Linux/${LIB_ARCH}/librga.so)
-
-# set(OPENCV_YEAR "frc2025")
-# set(OPENCV_VERSION "4.10.0-3")
-# also valid: windowsx86-64
-
-# type can be "", "debug", "static", or "staticdebug"
-# set(OPENCV_TYPE "")
-
-# Download opencv, and save the path
-# include(FetchContent)
-# fetchcontent_declare(
-#     opencv_lib
-#     URL
-#         https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/${OPENCV_YEAR}/opencv/opencv-cpp/${OPENCV_VERSION}/opencv-cpp-${OPENCV_VERSION}-${OPENCV_ARCH}${OPENCV_TYPE}.zip
-# )
-# fetchcontent_makeavailable(opencv_lib)
-
-# download OpenCV headers
-# fetchcontent_declare(
-#     opencv_header
-#     URL
-#         https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/${OPENCV_YEAR}/opencv/opencv-cpp/${OPENCV_VERSION}/opencv-cpp-${OPENCV_VERSION}-headers.zip
-# )
-# fetchcontent_makeavailable(opencv_header)
-
-# This probably doesn't work great with shared libraries, but I don't care about those right now
-# file(
-#     GLOB_RECURSE OPENCV_LIB_PATH
-#     "${opencv_lib_SOURCE_DIR}/**/*.lib"
-#     "${opencv_lib_SOURCE_DIR}/**/*.so*"
-# )
-# set(OPENCV_INCLUDE_PATH ${opencv_header_SOURCE_DIR})
-# message("Depending on opencv ${OPENCV_LIB_PATH}")
-
 set(CMAKE_INSTALL_RPATH "lib")
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
+
+set(OPENCV_YEAR "frc2025")
+set(OPENCV_VERSION "4.10.0-3")
+# also valid: windowsx86-64
+
+# type can be "", "debug", "static", or "staticdebug"
+set(OPENCV_TYPE "")
+
+# Download opencv, and save the path
+include(FetchContent)
+fetchcontent_declare(
+    opencv_lib
+    URL
+        https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/${OPENCV_YEAR}/opencv/opencv-cpp/${OPENCV_VERSION}/opencv-cpp-${OPENCV_VERSION}-${OPENCV_ARCH}${OPENCV_TYPE}.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP
+        TRUE
+)
+fetchcontent_makeavailable(opencv_lib)
+
+# download OpenCV headers
+fetchcontent_declare(
+    opencv_header
+    URL
+        https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/${OPENCV_YEAR}/opencv/opencv-cpp/${OPENCV_VERSION}/opencv-cpp-${OPENCV_VERSION}-headers.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP
+        TRUE
+)
+fetchcontent_makeavailable(opencv_header)
+
+# This probably doesn't work great with shared libraries, but I don't care about those right now
+file(
+    GLOB_RECURSE OPENCV_LIB_PATH
+    "${opencv_lib_SOURCE_DIR}/**/*.lib"
+    "${opencv_lib_SOURCE_DIR}/**/*.so*"
+)
+set(OPENCV_INCLUDE_PATH ${opencv_header_SOURCE_DIR})
+message("Depending on opencv ${OPENCV_LIB_PATH}")
 
 add_library(
     ${PROJECT_NAME}
@@ -131,7 +123,7 @@ target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC 
     Threads::Threads 
-    ${OpenCV_LIBS} 
+    ${OPENCV_LIB_PATH} 
     CUDA::cudart
     ${TENSORRT_LIBS}
 )
@@ -164,7 +156,7 @@ target_link_libraries(
     main_test
     PUBLIC 
     Threads::Threads 
-    ${OpenCV_LIBS} 
+    ${OPENCV_LIB_PATH} 
     CUDA::cudart
     ${TENSORRT_LIBS}
 )
